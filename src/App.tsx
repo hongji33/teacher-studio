@@ -63,7 +63,7 @@ function Frame() {
     [toast, setToast] = useState("");
   const [collapsed, setCollapsed] = useState(false),
     [mobile, setMobile] = useState(false),
-    [expanded, setExpanded] = useState<string[]>(["art"]),
+    [expanded, setExpanded] = useState<string[]>([]),
     [query, setQuery] = useState(""),
     [view, setView] = useState("grid"),
     [editor, setEditor] = useState<WebApp | null | undefined>(),
