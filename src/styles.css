@@ -2798,3 +2798,64 @@ td select {
     font-size: 12px;
   }
 }
+
+/* Clear action colors across the workspace. */
+.primary {
+  background: #4f63dc;
+  border-color: #4f63dc;
+  box-shadow: 0 4px 12px #4f63dc25;
+}
+.primary:hover { background: #3d50c5; border-color: #3d50c5; }
+.card-actions { height: auto; min-height: 55px; gap: 7px; }
+.card-actions button {
+  min-height: 32px;
+  padding: 7px 9px;
+  border-radius: 7px;
+  font-weight: 600;
+  justify-content: center;
+}
+.card-actions button:first-child {
+  background: #5269de;
+  color: #fff;
+  gap: 7px;
+  flex: 1;
+  box-shadow: 0 2px 6px #5269de18;
+}
+.card-actions button:first-child span { color: #fff; }
+.card-actions button:first-child:hover { background: #4057c8; color: #fff; }
+.card-actions button:last-child { background: #eaf7f2; color: #28795d; }
+.card-actions button:last-child:hover { background: #d9f0e5; color: #1d624a; }
+.favorite { width: 29px; height: 29px; margin-top: 0; padding: 5px; background: #f5f6fa; color: #8b97ac; }
+.favorite:hover, .favorite.is-favorite { background: #fff2d6; color: #a87318; }
+.hero-copy button { background: #fff; color: #4e63c4; padding: 9px 13px; border-radius: 8px; box-shadow: 0 3px 10px #536be40c; }
+.hero-copy button:hover { background: #e1e8ff; color: #354eaf; }
+.header-star { background: #fff5df; color: #ac7c24; }
+.header-star:hover { background: #ffeac0; color: #956718; }
+.data-cards .panel:nth-child(1) .secondary { background: #eef1ff; border-color: #dae1ff; color: #4c60c7; }
+.data-cards .panel:nth-child(2) .secondary { background: #eaf7f2; border-color: #d4eddf; color: #28795d; }
+.data-cards .danger { background: #fff0f0; border-color: #f6d9de; color: #b14d61; }
+.runner-toolbar .secondary { background: #edf1ff; border-color: #dce3ff; color: #4d63c2; }
+.runner-toolbar button.secondary { background: #eaf7f2; border-color: #d4eddf; color: #28795d; }
+.category-tabs button.active, .view-toggle button.active { background: #e9edff; color: #4c60c7; }
+.list-card .card-actions button:first-child { flex: initial; }
+[data-theme="dark"] .primary { background: #6578ee; border-color: #6578ee; }
+[data-theme="dark"] .primary:hover { background: #7888f5; }
+[data-theme="dark"] .card-actions button:first-child { background: #6074e4; color: #fff; }
+[data-theme="dark"] .card-actions button:first-child:hover { background: #7284ef; }
+[data-theme="dark"] .card-actions button:last-child,
+[data-theme="dark"] .runner-toolbar button.secondary,
+[data-theme="dark"] .data-cards .panel:nth-child(2) .secondary { background: #28463e; border-color: #36584c; color: #9cd9bf; }
+[data-theme="dark"] .favorite { background: #2b3548; color: #9aa9c2; }
+[data-theme="dark"] .favorite.is-favorite,
+[data-theme="dark"] .favorite:hover,
+[data-theme="dark"] .header-star { background: #483d28; color: #edc36d; }
+[data-theme="dark"] .hero-copy button,
+[data-theme="dark"] .runner-toolbar .secondary,
+[data-theme="dark"] .data-cards .panel:nth-child(1) .secondary { background: #334467; border-color: #445780; color: #bdccff; }
+[data-theme="dark"] .data-cards .danger { background: #4b303c; border-color: #65404d; color: #edb1bd; }
+@media (max-width: 480px) {
+  .card-actions { gap: 5px; }
+  .card-actions button { padding: 7px 6px; font-size: 9px; }
+  .card-actions button:first-child { gap: 4px; }
+  .list-card .card-actions { gap: 8px; }
+}
