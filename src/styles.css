@@ -3160,6 +3160,18 @@ td select {
   }
 }
 
+.daily-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.daily-heading h1 {
+  font-size: 20px;
+  letter-spacing: -0.5px;
+}
+
 .daily-calendar {
   background: var(--surface);
   border: 1px solid var(--line);
@@ -3171,7 +3183,7 @@ td select {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 20px;
+  padding: 12px 16px;
 }
 .daily-toolbar > div,
 .daily-count {
@@ -3189,7 +3201,10 @@ td select {
 }
 .daily-grid {
   display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 0.45fr) repeat(5, minmax(0, 1fr)) minmax(
+      0,
+      0.45fr
+    );
 }
 .daily-weekday {
   padding: 12px;
@@ -3205,7 +3220,7 @@ td select {
 }
 .daily-cell,
 .daily-blank {
-  min-height: 125px;
+  min-height: 170px;
   border-top: 1px solid var(--line);
   border-right: 1px solid var(--line);
 }
@@ -3239,12 +3254,9 @@ td select {
   color: var(--text);
   white-space: pre-wrap;
   overflow-wrap: anywhere;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  font-size: 12px;
-  line-height: 1.5;
+  display: block;
+  font-size: 13px;
+  line-height: 1.7;
 }
 .daily-note-dot {
   width: 5px;
@@ -3273,7 +3285,7 @@ td select {
 .daily-dialog {
   background: var(--surface);
   border-radius: 16px;
-  width: min(560px, 100%);
+  width: min(860px, 100%);
   padding: 24px;
   max-height: 90dvh;
   overflow: auto;
@@ -3289,7 +3301,7 @@ td select {
 }
 .daily-dialog textarea {
   width: 100%;
-  min-height: 240px;
+  min-height: min(480px, 55dvh);
   resize: vertical;
   background: var(--soft);
   color: var(--text);
@@ -3317,7 +3329,7 @@ td select {
 @media (max-width: 640px) {
   .daily-cell,
   .daily-blank {
-    min-height: 88px;
+    min-height: 120px;
   }
   .daily-cell {
     padding: 6px;
@@ -3325,7 +3337,6 @@ td select {
   }
   .daily-note-preview {
     font-size: 10px;
-    -webkit-line-clamp: 2;
   }
   .daily-note-dot {
     top: 10px;

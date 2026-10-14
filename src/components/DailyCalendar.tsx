@@ -75,11 +75,9 @@ export default function DailyCalendar({
   ).length;
   return (
     <>
-      <div className="page-intro">
+      <div className="daily-heading">
         <div>
-          <span className="eyebrow">MY DAILY JOURNAL</span>
           <h1>하루 기록</h1>
-          <p>날짜를 눌러 오늘의 일과 생각을 남겨 보세요.</p>
         </div>
         <span className="daily-count">
           <CalendarDays size={17} />
