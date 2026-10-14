@@ -673,17 +673,9 @@ function Frame() {
                     </>
                   )}
                   {browse && (
-                    <div className="page-intro">
+                    <div className="page-intro compact-intro">
                       <div>
-                        <span className="eyebrow">YOUR DIGITAL TOOLKIT</span>
                         <h1>{query ? "검색 결과" : title}</h1>
-                        <p>
-                          {query
-                            ? `‘${query}’에 맞는 웹앱을 찾았어요.`
-                            : category
-                              ? "배움과 아이디어를 연결하는 나만의 도구 모음입니다."
-                              : "필요한 순간, 필요한 도구를 바로 만나세요."}
-                        </p>
                       </div>
                       <button
                         className="primary"
@@ -725,27 +717,13 @@ function Frame() {
                         </div>
                       }
                     />
-                    <div className="category-tabs">
+                    <div className="category-tabs compact-tabs">
                       <button
                         className={filter === "all" ? "active" : ""}
                         onClick={() => setFilter("all")}
                       >
-                        전체 <span>{searched.length}</span>
+                        전체 <span>{apps.length}</span>
                       </button>
-                      {mainCats
-                        .filter(
-                          (c) =>
-                            c.id !== "personal" || categoryId === "personal",
-                        )
-                        .map((c) => (
-                          <button
-                            key={c.id}
-                            className={filter === c.id ? "active" : ""}
-                            onClick={() => setFilter(c.id)}
-                          >
-                            {c.name}
-                          </button>
-                        ))}
                     </div>
                     {apps.length ? (
                       cards(apps)

@@ -3477,3 +3477,20 @@ td select {
     font-size: 15px;
   }
 }
+
+.page-intro.compact-intro {
+  margin-bottom: 14px;
+  gap: 12px;
+}
+.page-intro.compact-intro h1 {
+  font-size: 22px;
+  line-height: 1.3;
+}
+.category-tabs.compact-tabs {
+  margin-top: 8px;
+  margin-bottom: 14px;
+  padding-bottom: 0;
+}
+.category-tabs.compact-tabs button {
+  padding: 7px 12px;
+}
