@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import {
   CalendarDays,
   ChevronLeft,
@@ -18,12 +19,33 @@ export default function DailyCalendar({
   notes: Record<string, string>;
   onSave: (date: string, note: string) => boolean;
 }) {
+  const [params] = useSearchParams();
+  const requested = params.get("date");
+  const requestedDate =
+    requested && /^\d{4}-\d{2}-\d{2}$/.test(requested)
+      ? new Date(`${requested}T12:00:00`)
+      : null;
+  const initialDate =
+    requestedDate &&
+    !Number.isNaN(requestedDate.getTime()) &&
+    dateKey(requestedDate) === requested
+      ? requestedDate
+      : null;
   const today = dateKey(new Date());
   const [month, setMonth] = useState(
-    () => new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+    () =>
+      new Date(
+        (initialDate || new Date()).getFullYear(),
+        (initialDate || new Date()).getMonth(),
+        1,
+      ),
   );
-  const [selected, setSelected] = useState<string | null>(null);
-  const [draft, setDraft] = useState("");
+  const [selected, setSelected] = useState<string | null>(
+    initialDate ? dateKey(initialDate) : null,
+  );
+  const [draft, setDraft] = useState(
+    initialDate ? notes[dateKey(initialDate)] || "" : "",
+  );
   const dirty = selected !== null && draft !== (notes[selected] || "");
   const dirtyRef = useRef(dirty);
   dirtyRef.current = dirty;

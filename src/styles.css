@@ -3355,3 +3355,123 @@ td select {
     font-size: 12px;
   }
 }
+
+.weekly-journal {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+.weekly-journal-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 20px;
+}
+.weekly-journal-heading > div {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.weekly-journal-heading h2,
+.weekly-journal-heading > a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.weekly-journal-heading h2 {
+  font-size: 17px;
+}
+.weekly-journal-heading span {
+  color: var(--muted);
+  font-size: 12px;
+}
+.weekly-journal-heading > a {
+  color: var(--primary);
+  white-space: nowrap;
+  font-weight: 600;
+}
+.weekly-table-scroll {
+  overflow-x: auto;
+}
+.weekly-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+.weekly-table col {
+  width: 16.95%;
+}
+.weekly-table col.weekly-weekend {
+  width: 7.625%;
+}
+.weekly-table th,
+.weekly-table td {
+  padding: 0;
+  border: 1px solid var(--line);
+  vertical-align: top;
+}
+.weekly-table th {
+  background: var(--soft);
+  text-align: left;
+}
+.weekly-table th a {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 10px;
+}
+.weekly-table th small {
+  background: var(--primary);
+  color: white;
+  border-radius: 5px;
+  padding: 2px 5px;
+  font-size: 10px;
+}
+.weekly-table .weekly-today {
+  background: var(--surface);
+  box-shadow: inset 0 3px var(--primary);
+}
+.weekly-table td a {
+  display: block;
+  padding: 12px 10px;
+  min-height: 150px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  line-height: 1.7;
+}
+.weekly-table a:hover {
+  background: var(--soft);
+}
+.weekly-note {
+  color: var(--text);
+}
+.weekly-empty {
+  color: var(--muted);
+  font-size: 12px;
+}
+.weekly-caption {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+@media (max-width: 640px) {
+  .weekly-table {
+    min-width: 640px;
+  }
+  .weekly-journal-heading {
+    padding: 12px;
+  }
+  .weekly-journal-heading > div {
+    gap: 4px;
+  }
+  .weekly-journal-heading h2 {
+    font-size: 15px;
+  }
+}

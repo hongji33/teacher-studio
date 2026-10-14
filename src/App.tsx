@@ -43,7 +43,8 @@ import AppEditor from "./components/AppEditor";
 import Admin from "./components/Admin";
 import Runner from "./components/Runner";
 import DailyCalendar from "./components/DailyCalendar";
-import { SectionTitle, Empty, HeroArt } from "./components/WorkspaceUI";
+import WeeklyJournal from "./components/WeeklyJournal";
+import { SectionTitle, Empty } from "./components/WorkspaceUI";
 import "./styles.css";
 function load() {
   try {
@@ -520,36 +521,7 @@ function Frame() {
                           웹앱 추가
                         </button>
                       </div>
-                      <section className="hero">
-                        <div className="hero-copy">
-                          <span className="hero-pill">
-                            <span /> MADE FOR YOUR TEACHING LIFE
-                          </span>
-                          <h2>
-                            생각은 자유롭게,
-                            <br />
-                            수업은 더 풍요롭게.
-                          </h2>
-                          <p>
-                            선생님의 아이디어와 도구를 한곳에.
-                            <br />
-                            나만의 교육 워크스페이스를 만들어 가세요.
-                          </p>
-                          <button
-                            onClick={() =>
-                              document
-                                .getElementById("explore")
-                                ?.scrollIntoView({ behavior: "smooth" })
-                            }
-                          >
-                            나의 웹앱 둘러보기 <ArrowRight size={16} />
-                          </button>
-                        </div>
-                        <HeroArt />
-                        <div className="hero-caption">
-                          A little space for big ideas <Sparkles size={12} />
-                        </div>
-                      </section>
+                      <WeeklyJournal notes={data.dailyNotes || {}} />
                       <div className="overview">
                         <div className="metric">
                           <span className="metric-icon blue">
