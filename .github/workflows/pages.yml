@@ -24,6 +24,11 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build:github
+      - name: Preserve legacy dist links
+        run: |
+          mkdir -p dist/dist
+          cp dist/index.html dist/dist/index.html
+          cp -R dist/assets dist/dist/assets
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
