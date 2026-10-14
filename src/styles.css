@@ -3415,6 +3415,7 @@ td select {
   vertical-align: top;
 }
 .weekly-table th {
+  font-size: 12px;
   background: var(--soft);
   text-align: left;
 }
@@ -3437,6 +3438,7 @@ td select {
   box-shadow: inset 0 3px var(--primary);
 }
 .weekly-table td a {
+  font-size: 13px;
   display: block;
   padding: 12px 10px;
   min-height: 150px;
