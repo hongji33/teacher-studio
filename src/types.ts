@@ -25,6 +25,7 @@ export type WebApp = {
 };
 export type StudioData = {
   version: 1;
+  dailyNotes?: Record<string, string>;
   categories: Category[];
   apps: WebApp[];
   recent: { appId: string; usedAt: string }[];

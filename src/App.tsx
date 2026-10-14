@@ -42,6 +42,7 @@ import AppCard from "./components/AppCard";
 import AppEditor from "./components/AppEditor";
 import Admin from "./components/Admin";
 import Runner from "./components/Runner";
+import DailyCalendar from "./components/DailyCalendar";
 import { SectionTitle, Empty, HeroArt } from "./components/WorkspaceUI";
 import "./styles.css";
 function load() {
@@ -157,13 +158,15 @@ function Frame() {
     : null;
   const category = data.categories.find((c) => c.id === categoryId);
   const title =
-    location.pathname === "/admin"
-      ? "워크스페이스 관리"
-      : location.pathname === "/favorites"
-        ? "즐겨찾기"
-        : location.pathname === "/recent"
-          ? "최근 사용"
-          : category?.name || "대시보드";
+    location.pathname === "/calendar"
+      ? "하루 기록"
+      : location.pathname === "/admin"
+        ? "워크스페이스 관리"
+        : location.pathname === "/favorites"
+          ? "즐겨찾기"
+          : location.pathname === "/recent"
+            ? "최근 사용"
+            : category?.name || "대시보드";
   const isHome = location.pathname === "/";
   const browse = query || !isHome;
   const searched = visible.filter((a) =>
@@ -271,6 +274,14 @@ function Frame() {
           >
             <Clock3 size={19} />
             <span>최근 사용</span>
+          </Link>
+          <Link
+            className={`nav-item ${location.pathname === "/calendar" ? "active" : ""}`}
+            to="/calendar"
+            aria-label="하루 기록"
+          >
+            <CalendarDays size={19} />
+            <span>하루 기록</span>
           </Link>
           <div className="sidebar-label category-label">
             MY COLLECTIONS{" "}
@@ -438,6 +449,27 @@ function Frame() {
             </div>
           )}
           <Routes>
+            <Route
+              path="/calendar"
+              element={
+                <DailyCalendar
+                  notes={data.dailyNotes || {}}
+                  onSave={(date, note) => {
+                    const dailyNotes = { ...data.dailyNotes };
+                    if (note.trim()) dailyNotes[date] = note;
+                    else delete dailyNotes[date];
+                    const ok = commit({ ...data, dailyNotes });
+                    if (ok)
+                      setToast(
+                        note.trim()
+                          ? "하루 기록을 저장했습니다."
+                          : "하루 기록을 삭제했습니다.",
+                      );
+                    return ok;
+                  }}
+                />
+              }
+            />
             <Route
               path="/admin"
               element={

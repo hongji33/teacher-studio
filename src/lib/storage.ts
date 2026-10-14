@@ -82,6 +82,25 @@ export function validate(value: unknown): StudioData {
     )
   )
     throw Error("최근 사용 기록이 올바르지 않습니다.");
+  if (d.dailyNotes !== undefined) {
+    if (
+      !d.dailyNotes ||
+      typeof d.dailyNotes !== "object" ||
+      Array.isArray(d.dailyNotes)
+    )
+      throw Error("하루 기록 데이터가 올바르지 않습니다.");
+    for (const [date, note] of Object.entries(d.dailyNotes)) {
+      const parsed = new Date(`${date}T12:00:00Z`);
+      if (
+        !/^\d{4}-\d{2}-\d{2}$/.test(date) ||
+        Number.isNaN(parsed.getTime()) ||
+        parsed.toISOString().slice(0, 10) !== date ||
+        typeof note !== "string" ||
+        note.length > 10000
+      )
+        throw Error("하루 기록 날짜 또는 메모가 올바르지 않습니다.");
+    }
+  }
   return d;
 }
 export const localRepository: StudioRepository = {
