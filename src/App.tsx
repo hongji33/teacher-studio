@@ -518,10 +518,6 @@ function Frame() {
                           <h1>
                             반가워요, 선생님 <span className="wave">✦</span>
                           </h1>
-                          <p>
-                            수업의 영감부터 오늘의 업무까지, 이곳에서
-                            시작하세요.
-                          </p>
                         </div>
                         <button
                           className="primary"

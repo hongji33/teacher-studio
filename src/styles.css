@@ -3539,3 +3539,72 @@ td select {
     padding: 10px 12px;
   }
 }
+
+/* Keep account status and the dashboard greeting within a compact intro. */
+.topbar {
+  height: 48px;
+}
+.global-search {
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+main {
+  padding-top: 12px;
+}
+.daily-sync {
+  gap: 3px 10px;
+  padding: 6px 10px;
+  margin-bottom: 8px;
+  border-radius: 10px;
+}
+.daily-sync > div:first-child {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px 10px;
+  min-width: 0;
+}
+.daily-sync strong {
+  font-size: 12px;
+}
+.daily-sync p {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.4;
+}
+.daily-sync-actions button {
+  padding: 4px 7px;
+  font-size: 11px;
+}
+.welcome-row {
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.welcome-row > div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 3px 12px;
+  min-width: 0;
+}
+.welcome-row .date {
+  margin: 0;
+  font-size: 11px;
+}
+.welcome-row h1 {
+  font-size: 16px;
+  line-height: 1.4;
+}
+.welcome-row .wave {
+  font-size: 16px;
+  margin-left: 2px;
+}
+.welcome-row .primary {
+  flex-shrink: 0;
+  padding: 5px 8px;
+  font-size: 11px;
+}
+.welcome-row .primary svg {
+  width: 14px;
+  height: 14px;
+}
