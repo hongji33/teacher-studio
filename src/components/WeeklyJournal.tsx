@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, CalendarDays } from "lucide-react";
 
@@ -19,7 +20,20 @@ export default function WeeklyJournal({
       start.getDate() + i,
     );
     const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
-    return { date, key, isToday: date.toDateString() === today.toDateString() };
+    const note = notes[key] || "";
+    const weight = note.trim()
+      ? Math.min(
+          4,
+          0.8 + Math.max(note.length / 60, note.split("\n").length / 3),
+        )
+      : 0.3;
+    return {
+      date,
+      key,
+      note,
+      weight,
+      isToday: date.toDateString() === today.toDateString(),
+    };
   });
   return (
     <section className="weekly-journal" aria-labelledby="weekly-journal-title">
@@ -39,55 +53,45 @@ export default function WeeklyJournal({
           월별 달력 <ArrowRight size={15} />
         </Link>
       </div>
-      <div className="weekly-table-scroll">
-        <table className="weekly-table">
-          <caption className="weekly-caption">
-            이번 주 날짜별 메모 · 날짜를 누르면 작성하거나 수정할 수 있습니다.
-          </caption>
-          <colgroup>
-            {days.map((day, i) => (
-              <col
-                key={day.key}
-                className={i === 0 || i === 6 ? "weekly-weekend" : ""}
-              />
-            ))}
-          </colgroup>
-          <thead>
-            <tr>
-              {days.map((day, i) => (
-                <th
-                  key={day.key}
-                  scope="col"
-                  className={`${i === 0 ? "sunday" : i === 6 ? "saturday" : ""} ${day.isToday ? "weekly-today" : ""}`}
-                >
-                  <Link to={`/calendar?date=${day.key}`}>
-                    <span>{["일", "월", "화", "수", "목", "금", "토"][i]}</span>
-                    <b>
-                      {day.date.getMonth() + 1}.{day.date.getDate()}
-                    </b>
-                    {day.isToday && <small>오늘</small>}
-                  </Link>
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              {days.map((day) => (
-                <td key={day.key}>
-                  <Link
-                    to={`/calendar?date=${day.key}`}
-                    aria-label={`${day.key} 하루 기록 ${notes[day.key] ? "수정" : "작성"}`}
-                    className={notes[day.key] ? "weekly-note" : "weekly-empty"}
-                  >
-                    {notes[day.key] || "메모 작성"}
-                  </Link>
-                </td>
-              ))}
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <ul
+        className="weekly-days"
+        style={
+          {
+            "--week-columns": days
+              .map(
+                (day) =>
+                  `minmax(${day.note.trim() ? 70 : 42}px, ${day.weight}fr)`,
+              )
+              .join(" "),
+          } as CSSProperties
+        }
+      >
+        {days.map((day, i) => (
+          <li
+            key={day.key}
+            className={`weekly-day ${day.note.trim() ? "has-note" : "is-empty"} ${day.isToday ? "weekly-today" : ""} ${i === 0 ? "sunday" : i === 6 ? "saturday" : ""}`}
+          >
+            <Link
+              className="weekly-day-date"
+              to={`/calendar?date=${day.key}`}
+              aria-label={`${day.key}${day.isToday ? " 오늘" : ""} 하루 기록 열기`}
+            >
+              <span>{["일", "월", "화", "수", "목", "금", "토"][i]}</span>
+              <b>
+                {day.date.getMonth() + 1}.{day.date.getDate()}
+              </b>
+              {day.isToday && <small>오늘</small>}
+            </Link>
+            <Link
+              className={`weekly-day-note ${day.note.trim() ? "weekly-note" : "weekly-empty"}`}
+              to={`/calendar?date=${day.key}`}
+              aria-label={`${day.key} 하루 기록 ${day.note.trim() ? "수정" : "작성"}`}
+            >
+              {day.note.trim() ? day.note : <span aria-hidden="true">＋</span>}
+            </Link>
+          </li>
+        ))}
+      </ul>
     </section>
   );
 }
