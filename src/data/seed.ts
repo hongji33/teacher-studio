@@ -208,6 +208,22 @@ const records: [string, string, string, string, string, string][] = [
     "Images",
     "purple",
   ],
+  [
+    "ArtMind",
+    "artmind",
+    "미술 수업에서 활용하는 ArtMind",
+    "art-3",
+    "Palette",
+    "purple",
+  ],
+  [
+    "미술사",
+    "arthistory/",
+    "미술 수업에서 함께 살펴보는 미술사",
+    "art-3",
+    "BookOpen",
+    "amber",
+  ],
 ];
 export function seed(): StudioData {
   return {

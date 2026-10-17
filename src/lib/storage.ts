@@ -106,9 +106,50 @@ export function validate(value: unknown): StudioData {
 export const localRepository: StudioRepository = {
   load() {
     const raw = localStorage.getItem(KEY);
-    if (raw !== null) return validate(JSON.parse(raw));
+    if (raw !== null) {
+      const data = validate(JSON.parse(raw));
+      // Add the new resources once without replacing personal apps or notes.
+      const migrationKey = `${KEY}:art-resources-2026-10`;
+      if (localStorage.getItem(migrationKey) !== "done") {
+        const additions = seed()
+          .apps.filter((app) =>
+            [
+              "https://hongji33.github.io/artmind",
+              "https://hongji33.github.io/arthistory/",
+            ].includes(app.url),
+          )
+          .filter(
+            (app) =>
+              !data.apps.some(
+                (existing) =>
+                  existing.url.replace(/\/$/, "") ===
+                  app.url.replace(/\/$/, ""),
+              ),
+          );
+        const category =
+          data.categories.find((c) => c.id === "art-3") ||
+          data.categories.find((c) => c.id === "art");
+        if (category) {
+          for (const app of additions) {
+            let id = app.id;
+            while (data.apps.some((existing) => existing.id === id))
+              id += "-new";
+            data.apps.push({
+              ...app,
+              id,
+              categoryId: category.id,
+              order: Math.max(-1, ...data.apps.map((a) => a.order)) + 1,
+            });
+          }
+          localStorage.setItem(KEY, JSON.stringify(validate(data)));
+          localStorage.setItem(migrationKey, "done");
+        }
+      }
+      return data;
+    }
     const initial = seed();
     localStorage.setItem(KEY, JSON.stringify(initial));
+    localStorage.setItem(`${KEY}:art-resources-2026-10`, "done");
     return initial;
   },
   save(d) {

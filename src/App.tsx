@@ -43,6 +43,8 @@ import AppEditor from "./components/AppEditor";
 import Admin from "./components/Admin";
 import Runner from "./components/Runner";
 import DailyCalendar from "./components/DailyCalendar";
+import DailySync from "./components/DailySync";
+import { useDailySync } from "./lib/useDailySync";
 import WeeklyJournal from "./components/WeeklyJournal";
 import { SectionTitle, Empty } from "./components/WorkspaceUI";
 import "./styles.css";
@@ -59,6 +61,7 @@ function load() {
 }
 const initial = load();
 function Frame() {
+  const sync = useDailySync();
   const [data, setData] = useState<StudioData>(initial.data),
     [error, setError] = useState(initial.error),
     [blocked, setBlocked] = useState(!!initial.error),
@@ -449,26 +452,33 @@ function Frame() {
               <button onClick={() => navigate("/admin")}>데이터 관리 →</button>
             </div>
           )}
+          <DailySync sync={sync} deviceNotes={data.dailyNotes || {}} />
           <Routes>
             <Route
               path="/calendar"
               element={
-                <DailyCalendar
-                  notes={data.dailyNotes || {}}
-                  onSave={(date, note) => {
-                    const dailyNotes = { ...data.dailyNotes };
-                    if (note.trim()) dailyNotes[date] = note;
-                    else delete dailyNotes[date];
-                    const ok = commit({ ...data, dailyNotes });
-                    if (ok)
-                      setToast(
-                        note.trim()
-                          ? "하루 기록을 저장했습니다."
-                          : "하루 기록을 삭제했습니다.",
-                      );
-                    return ok;
-                  }}
-                />
+                sync.checking || (sync.user && !sync.loaded) ? (
+                  <p role="status">온라인 하루기록을 확인하고 있습니다…</p>
+                ) : (
+                  <DailyCalendar
+                    key={sync.user?.uid || "device"}
+                    notes={sync.user ? sync.notes : data.dailyNotes || {}}
+                    onSave={(date, note) => {
+                      if (sync.user) return sync.save(date, note);
+                      const dailyNotes = { ...data.dailyNotes };
+                      if (note.trim()) dailyNotes[date] = note;
+                      else delete dailyNotes[date];
+                      const ok = commit({ ...data, dailyNotes });
+                      if (ok)
+                        setToast(
+                          note.trim()
+                            ? "하루 기록을 저장했습니다."
+                            : "하루 기록을 삭제했습니다.",
+                        );
+                      return ok;
+                    }}
+                  />
+                )
               }
             />
             <Route
@@ -521,7 +531,11 @@ function Frame() {
                           웹앱 추가
                         </button>
                       </div>
-                      <WeeklyJournal notes={data.dailyNotes || {}} />
+                      {!sync.checking && (
+                        <WeeklyJournal
+                          notes={sync.user ? sync.notes : data.dailyNotes || {}}
+                        />
+                      )}
                       <div className="overview">
                         <div className="metric">
                           <span className="metric-icon blue">

@@ -3494,3 +3494,14 @@ td select {
 .category-tabs.compact-tabs button {
   padding: 7px 12px;
 }
+
+.daily-sync {
+  margin-bottom: 24px;
+  padding: 18px 20px;
+  border: 1px solid var(--border, #dce1ed);
+  border-radius: 16px;
+  background: var(--surface, transparent);
+}
+.daily-sync p { margin: 8px 0 0; font-size: 14px; line-height: 1.6; overflow-wrap: anywhere; }
+.daily-sync-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+.daily-sync-actions button { padding: 10px 14px; border-radius: 10px; }

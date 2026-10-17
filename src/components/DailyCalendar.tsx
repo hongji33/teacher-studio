@@ -17,8 +17,23 @@ export default function DailyCalendar({
   onSave,
 }: {
   notes: Record<string, string>;
-  onSave: (date: string, note: string) => boolean;
+  onSave: (date: string, note: string) => boolean | Promise<boolean>;
 }) {
+  const [saving, setSaving] = useState(false);
+  const [saveFailed, setSaveFailed] = useState(false);
+  const savingRef = useRef(false);
+  savingRef.current = saving;
+  async function saveNote(date: string, note: string) {
+    if (savingRef.current) return;
+    setSaving(true);
+    setSaveFailed(false);
+    try {
+      if (await onSave(date, note)) setSelected(null);
+      else setSaveFailed(true);
+    } finally {
+      setSaving(false);
+    }
+  }
   const [params] = useSearchParams();
   const requested = params.get("date");
   const requestedDate =
@@ -50,6 +65,7 @@ export default function DailyCalendar({
   const dirtyRef = useRef(dirty);
   dirtyRef.current = dirty;
   function close() {
+    if (savingRef.current) return;
     if (dirtyRef.current && !confirm("저장하지 않은 메모를 닫을까요?")) return;
     setSelected(null);
   }
@@ -208,6 +224,7 @@ export default function DailyCalendar({
             <label htmlFor="daily-note">하루의 일과 메모</label>
             <textarea
               id="daily-note"
+              disabled={saving}
               autoFocus
               value={draft}
               maxLength={10000}
@@ -215,15 +232,18 @@ export default function DailyCalendar({
               placeholder="오늘 있었던 일, 해야 할 일, 기억하고 싶은 순간을 적어 보세요."
             />
             <small>{draft.length.toLocaleString()} / 10,000</small>
+            {saveFailed && (
+              <p role="alert">
+                저장 완료를 확인하지 못했습니다. 입력 내용은 유지됩니다. 연결
+                상태와 화면의 오류 안내를 확인한 뒤 다시 저장해 주세요.
+              </p>
+            )}
             <div className="daily-dialog-actions">
               <button
-                disabled={!notes[selected]}
+                disabled={saving || !notes[selected]}
                 onClick={() => {
-                  if (
-                    confirm("이 날짜의 메모를 삭제할까요?") &&
-                    onSave(selected, "")
-                  )
-                    setSelected(null);
+                  if (confirm("이 날짜의 메모를 삭제할까요?"))
+                    void saveNote(selected, "");
                 }}
               >
                 <Trash2 size={16} />
@@ -231,13 +251,13 @@ export default function DailyCalendar({
               </button>
               <button
                 className="primary"
-                disabled={!dirty}
+                disabled={saving || !dirty}
                 onClick={() => {
-                  if (onSave(selected, draft)) setSelected(null);
+                  void saveNote(selected, draft);
                 }}
               >
                 <Save size={16} />
-                저장
+                {saving ? "저장 중…" : "저장"}
               </button>
             </div>
           </section>
